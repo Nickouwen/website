@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Map from './components/map';
 import Link from 'next/link';
+import Carousel from './components/carousel';
 
 
 export default function Home() {
@@ -78,8 +79,8 @@ export default function Home() {
                 </div>
             </div>
             <div className="border-solid border-red-500 border-x-0 border-y-4 h-3 mb-8"></div>
-            <div> {/* Photo gallery */}
-
+            <div className="h-[48rem]"> {/* Photo gallery */}
+                <Carousel />
             </div>
             <div className="border-solid border-red-500 border-x-0 border-y-4 h-3 mt-12"></div>
             <div className="h-[40rem]"> {/* Map of location */}
