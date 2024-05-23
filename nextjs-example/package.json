@@ -9,6 +9,7 @@
     "google-map-react": "^2.2.1",
     "next": "latest",
     "react": "18.2.0",
+    "react-burger-menu": "^3.0.9",
     "react-dom": "18.2.0",
     "react-gallery-carousel": "^0.4.0"
   },
