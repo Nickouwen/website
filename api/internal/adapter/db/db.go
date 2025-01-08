@@ -37,7 +37,7 @@ func New(addr string, maxOpenConns int, maxIdleTime time.Duration) (*mongo.Datab
 	}
 	log.Printf("connected to mongdb server at %v", addr)
 
-	database := client.Database("recipes")
+	database := client.Database("family-recipes")
 
 	return database, nil
 }
