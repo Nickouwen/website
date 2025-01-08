@@ -1,7 +1,8 @@
 package main
 
 import (
-	"api/pkg/recipes"
+	handlerhttp "api/internal/adapter/handler/http"
+	"api/internal/adapter/repository"
 	"bytes"
 	"net/http"
 	"net/http/httptest"
@@ -22,8 +23,8 @@ func readTestData(t *testing.T, name string) []byte {
 
 func TestRecipesCRUD(t *testing.T) {
 	// Setup
-	store := recipes.NewMemStore()
-	recipesHandler := NewRecipesHandler(store)
+	store := repository.NewMemStore()
+	recipesHandler := handlerhttp.NewRecipesHandler(store)
 
 	// Test Data
 	cookies := readTestData(t, "chocolate_chip_cookies.json")

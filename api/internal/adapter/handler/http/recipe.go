@@ -1,9 +1,9 @@
-package main
+package handlerhttp
 
 import (
-	"api/pkg/recipes"
+	"api/internal/core/domain"
+	"api/internal/core/port"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"regexp"
 
@@ -15,39 +15,17 @@ var (
 	RecipeReWithID = regexp.MustCompile(`^/recipes/([a-z0-9]+(?:-[a-z0-9]+)+)$`)
 )
 
-func main() {
-
-	store := recipes.NewMemStore()
-	recipesHandler := NewRecipesHandler(store)
-
-	mux := http.NewServeMux()
-	mux.Handle("/", &homeHandler{})
-	mux.Handle("/recipes", recipesHandler)
-	mux.Handle("/recipes/", recipesHandler)
-
-	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", mux)
+type recipeHandler struct {
+	store port.RecipeStore
 }
 
-type recipeStore interface {
-	Add(name string, recipe recipes.Recipe) error
-	Get(name string) (recipes.Recipe, error)
-	Update(name string, recipe recipes.Recipe) error
-	List() (map[string]recipes.Recipe, error)
-	Remove(name string) error
+func NewRecipesHandler(s port.RecipeStore) *recipeHandler {
+	return &recipeHandler{
+		store: s,
+	}
 }
 
-type homeHandler struct{}
-
-type recipesHandler struct {
-	store recipeStore
-}
-
-func (h *homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("This is my home page"))
-}
-
-func (h *recipesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.Method == http.MethodGet && RecipeRe.MatchString(r.URL.Path):
 		h.ListRecipes(w, r)
@@ -62,7 +40,7 @@ func (h *recipesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 
 	case r.Method == http.MethodDelete && RecipeReWithID.MatchString(r.URL.Path):
-		w.Write([]byte("You've deleted a recipe"))
+		h.DeleteRecipe(w, r)
 		return
 
 	case r.Method == http.MethodPut && RecipeReWithID.MatchString(r.URL.Path):
@@ -71,15 +49,9 @@ func (h *recipesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewRecipesHandler(s recipeStore) *recipesHandler {
-	return &recipesHandler{
-		store: s,
-	}
-}
-
-func (h *recipesHandler) CreateRecipe(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) CreateRecipe(w http.ResponseWriter, r *http.Request) {
 	// Instantiate a new recipe
-	var recipe recipes.Recipe
+	var recipe domain.Recipe
 
 	// Decode the JSON
 	if err := json.NewDecoder(r.Body).Decode(&recipe); err != nil {
@@ -98,7 +70,7 @@ func (h *recipesHandler) CreateRecipe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Recipe created with ID " + resourceID))
 }
-func (h *recipesHandler) ListRecipes(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) ListRecipes(w http.ResponseWriter, r *http.Request) {
 	// Get the list of all recipes in the store
 	recipes, err := h.store.List()
 	if err != nil {
@@ -117,7 +89,7 @@ func (h *recipesHandler) ListRecipes(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonBytes)
 }
-func (h *recipesHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 	// Get the recipe
 	matches := RecipeReWithID.FindStringSubmatch(r.URL.Path)
 
@@ -145,7 +117,7 @@ func (h *recipesHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonBytes)
 }
-func (h *recipesHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
 	matches := RecipeReWithID.FindStringSubmatch(r.URL.Path)
 
 	// If the recipe doesn't exist, return Not Found
@@ -178,7 +150,7 @@ func (h *recipesHandler) UpdateRecipe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Recipe with id " + matches[1] + " has been updated"))
 }
-func (h *recipesHandler) DeleteRecipe(w http.ResponseWriter, r *http.Request) {
+func (h *recipeHandler) DeleteRecipe(w http.ResponseWriter, r *http.Request) {
 	// Get the recipe
 	matches := RecipeReWithID.FindStringSubmatch(r.URL.Path)
 
