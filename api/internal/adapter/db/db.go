@@ -11,7 +11,7 @@ import (
 )
 
 // Code ripped from Frans Kouwenhoven
-// https://github.com/FransK/truthiness/blob/main/backend/internal/store/storage.go
+// https://github.com/FransK/truthiness
 
 func New(addr string, maxOpenConns int, maxIdleTime time.Duration) (*mongo.Database, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
