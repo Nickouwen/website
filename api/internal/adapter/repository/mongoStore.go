@@ -5,6 +5,7 @@ import (
 	"context"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -18,13 +19,13 @@ func New(mongodb *mongo.Database) *MongoStore {
 	}
 }
 
-func (m MongoStore) Add(name string, recipe domain.Recipe) error {
+func (m MongoStore) Add(ctx context.Context, recipe domain.Recipe) error {
 	_, err := m.db.Collection("recipes").InsertOne(context.TODO(), recipe)
 
 	return err
 }
 
-func (m MongoStore) List() ([]domain.Recipe, error) {
+func (m MongoStore) List(ctx context.Context) ([]domain.Recipe, error) {
 	res, err := m.db.Collection("recipes").Find(context.TODO(), bson.M{})
 
 	if err != nil {
@@ -39,28 +40,25 @@ func (m MongoStore) List() ([]domain.Recipe, error) {
 	return recipes, nil
 }
 
-func (m MongoStore) Get(name string) (domain.Recipe, error) {
-	res, err := m.db.Collection("recipes").Find(context.TODO(), bson.M{"name": name})
-
-	if err != nil {
-		return domain.Recipe{}, err
-	}
+func (m MongoStore) Get(ctx context.Context, ID primitive.ObjectID) (domain.Recipe, error) {
+	res := m.db.Collection("recipes").FindOne(context.TODO(), bson.M{"_id": ID})
 
 	var recipe domain.Recipe
-	if err = res.All(context.TODO(), &recipe); err != nil {
+	err := res.Decode(&recipe)
+	if err != nil {
 		return domain.Recipe{}, err
 	}
 	return recipe, nil
 }
 
-func (m MongoStore) Update(name string, recipe domain.Recipe) error {
-	_, err := m.db.Collection("recipes").UpdateOne(context.TODO(), bson.M{"name": name}, bson.M{"$set": recipe})
+func (m MongoStore) Update(ctx context.Context, ID primitive.ObjectID, recipe domain.Recipe) error {
+	_, err := m.db.Collection("recipes").UpdateOne(context.TODO(), bson.M{"_id": ID}, bson.M{"$set": recipe})
 
 	return err
 }
 
-func (m MongoStore) Remove(name string) error {
-	_, err := m.db.Collection("recipes").DeleteOne(context.TODO(), bson.M{"name": name})
+func (m MongoStore) Remove(ctx context.Context, ID primitive.ObjectID) error {
+	_, err := m.db.Collection("recipes").DeleteOne(context.TODO(), bson.M{"_id": ID})
 
 	return err
 }

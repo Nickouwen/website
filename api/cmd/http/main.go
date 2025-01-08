@@ -1,15 +1,29 @@
 package main
 
 import (
+	"api/internal/adapter/db"
 	handlerhttp "api/internal/adapter/handler/http"
 	"api/internal/adapter/repository"
 	"fmt"
+	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
 
-	store := repository.NewMemStore()
+	mydb, err := db.New(
+		"mongodb://user:pass@mongodb:27017",
+		10,
+		10*time.Second,
+	)
+
+	if err != nil {
+		log.Print(err)
+		panic(err)
+	}
+
+	store := repository.New(mydb)
 	recipesHandler := handlerhttp.NewRecipesHandler(store)
 
 	mux := http.NewServeMux()

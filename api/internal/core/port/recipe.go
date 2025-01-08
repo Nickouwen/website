@@ -1,11 +1,32 @@
 package port
 
-import "api/internal/core/domain"
+import (
+	"api/internal/core/domain"
+	"context"
 
-type RecipeStore interface {
-	Add(name string, recipe domain.Recipe) error
-	Get(name string) (domain.Recipe, error)
-	Update(name string, recipe domain.Recipe) error
-	List() (map[string]domain.Recipe, error)
-	Remove(name string) error
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+type RecipeRepository interface {
+	Add(ctx context.Context, recipe domain.Recipe) error
+
+	Get(ctx context.Context, ID primitive.ObjectID) (domain.Recipe, error)
+
+	Update(ctx context.Context, ID primitive.ObjectID, recipe domain.Recipe) error
+
+	List(ctx context.Context) ([]domain.Recipe, error)
+
+	Remove(ctx context.Context, ID primitive.ObjectID) error
+}
+
+type RecipeService interface {
+	Add(ctx context.Context, recipe domain.Recipe) error
+
+	Get(ctx context.Context, ID primitive.ObjectID) (domain.Recipe, error)
+
+	Update(ctx context.Context, ID primitive.ObjectID, recipe domain.Recipe) error
+
+	List(ctx context.Context) ([]domain.Recipe, error)
+
+	Remove(ctx context.Context, ID primitive.ObjectID) error
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api/internal/adapter/db"
 	handlerhttp "api/internal/adapter/handler/http"
 	"api/internal/adapter/repository"
 	"bytes"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 )
 
 func readTestData(t *testing.T, name string) []byte {
@@ -23,7 +25,16 @@ func readTestData(t *testing.T, name string) []byte {
 
 func TestRecipesCRUD(t *testing.T) {
 	// Setup
-	store := repository.NewMemStore()
+
+	mydb, err := db.New(
+		"mongodb://localhost:27017",
+		10,
+		10*time.Second,
+	)
+	if err != nil {
+		panic(err)
+	}
+	store := repository.New(mydb)
 	recipesHandler := handlerhttp.NewRecipesHandler(store)
 
 	// Test Data
