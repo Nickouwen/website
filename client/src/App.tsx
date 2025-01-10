@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import { addRecipe, deleteRecipe, getRecipes } from './api/Recipes.ts'
+import { addRecipe, deleteRecipe, getRecipes, updateRecipe } from './api/Recipes.ts'
 import testRecipe from './api/test-data/basque-cheesecake.ts'
 import RecipeCard from './components/RecipeCard.tsx'
 import { Beaker, Weight } from 'lucide-react'
@@ -27,6 +27,17 @@ function App() {
 
   const handleAdd = (recipe: JSON) => {
     addRecipe(recipe).then(res => res.json()).then(data => setRecipes([...recipes, data]))
+  }
+
+  const handleUpdate = (id: string, recipe: JSON) => {
+    updateRecipe(id, recipe).then(res => res.json()).then(data => {
+      for (let i = 0; i < recipes.length; i++) {
+        if (recipes[i].id === id) {
+          recipes[i] = data
+        }
+      }
+      setRecipes([...recipes])
+    })
   }
 
   const handleDelete = (id: string) => {
