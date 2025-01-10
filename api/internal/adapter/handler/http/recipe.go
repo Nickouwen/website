@@ -59,15 +59,21 @@ func (h *RecipeHandler) CreateRecipe(w http.ResponseWriter, r *http.Request) {
 	resourceID := primitive.NewObjectID()
 	recipe.ID = resourceID
 	err := h.svc.Add(r.Context(), recipe)
+
 	if err != nil {
-		log.Printf("error adding recipe: %v", err)
 		InternalServerErrorHandler(w, r)
 		return
 	}
 
-	// Write a response, send status of 201 (Created)
+	jsonBytes, err := json.Marshal(recipe)
+	if err != nil {
+		InternalServerErrorHandler(w, r)
+		return
+	}
+	// Write the results as JSON
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("Recipe created"))
+	w.Write(jsonBytes)
 }
 func (h *RecipeHandler) ListRecipes(w http.ResponseWriter, r *http.Request) {
 	// Get the list of all recipes in the svc
@@ -85,6 +91,7 @@ func (h *RecipeHandler) ListRecipes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Write the results as JSON
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonBytes)
 }
@@ -119,6 +126,7 @@ func (h *RecipeHandler) GetRecipe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Write the results as JSON
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonBytes)
 }

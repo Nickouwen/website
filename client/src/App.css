@@ -1,42 +1,46 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.button-container {
+  margin: 5px 0;
+  display: inline-flex;
+  border: none;
+  box-shadow: inset 1px 1px 0 black, inset -1px -1px 0 black;
+  cursor: pointer;
+  &:hover {
+    span {
+      transform: translate(-3px, -3px);
+    }
+  }
+  &:focus {
+    span {
+      transform: translate(-3px, -3px);
+    }
+  }
+  span {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    background-color: white;
+    transition: transform 0.1s linear;
+  }
+}
+
+.recipe-card {
+  width: 700px;
+  margin: 10px 0;
+  position: relative;
+  border: 1px solid lightgray;
+  padding: 0px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#volumetric-button {
+  display: flex;
+  width: 138.219px;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

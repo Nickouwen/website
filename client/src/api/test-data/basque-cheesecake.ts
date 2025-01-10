@@ -25,8 +25,8 @@ const testRecipe: string = `{
         }, {
             "name": "Eggs",
             "measurements": {
-                "volumetric": "6 eggs",
-                "weight": "6 eggs"
+                "volumetric": "6",
+                "weight": "6"
             },
             "notes": ""
         }, {

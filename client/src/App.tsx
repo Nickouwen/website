@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { addRecipe, getRecipes } from './api/Recipes.ts'
+import { addRecipe, deleteRecipe, getRecipes } from './api/Recipes.ts'
 import testRecipe from './api/test-data/basque-cheesecake.ts'
+import RecipeCard from './components/RecipeCard.tsx'
+import { Beaker, Weight } from 'lucide-react'
+import AddRecipeModal from './components/AddRecipeModal.tsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [adding, setAdding] = useState(false)
+  const [volumetric, setVolumetric] = useState(true)
   const [recipes, setRecipes] = useState([{
     id: "",
     name: "",
@@ -15,6 +17,27 @@ function App() {
     preamble: "",
     author: ""
   }])
+
+  window.addEventListener("mousedown", () => {
+    const menu = document.querySelector('.options-menu')
+    if (menu) {
+      menu.classList.remove('visible')
+    }
+  })
+
+  const handleAdd = (recipe: JSON) => {
+    addRecipe(recipe).then(res => res.json()).then(data => setRecipes([...recipes, data]))
+  }
+
+  const handleDelete = (id: string) => {
+    for (let i = 0; i < recipes.length; i++) {
+      if (recipes[i].id === id) {
+        recipes.splice(i, 1)
+      }
+    }
+    deleteRecipe(id)
+    setRecipes([...recipes])
+  }
 
   useEffect(() => {
     getRecipes().then((recipes) => {
@@ -28,32 +51,26 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Nic's React App</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <div>
-          {recipes.map((recipe) => (
-            <div key={recipe.id}>
-              <h2>{recipe.name}</h2>
-              <p>{recipe.preamble}</p>
-            </div>
-          ))}
+      <header>
+        <h1>Nic's React App</h1>
+        <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
+          {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
         </div>
-        <button onClick={() => addRecipe(JSON.parse(testRecipe))}>Add Test Recipe</button>
+        <div className="button-container"onClick={() => handleAdd(JSON.parse(testRecipe))}>
+          <span>Add Test Recipe</span>
+        </div>
+        <div className="button-container"onClick={() => setAdding(true)}>
+          <span>Add New Recipe</span>
+        </div>
+      </header>
+      <div>
+        {recipes.map((recipe) => (
+          <div className="recipe-card" key={recipe.id}>
+            <RecipeCard recipe={recipe} volumetric={volumetric} handleDelete={handleDelete} />
+          </div>
+        ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {adding && <AddRecipeModal handleAdd={handleAdd} isOpen={adding} setIsOpen={setAdding} />}
     </>
   )
 }
