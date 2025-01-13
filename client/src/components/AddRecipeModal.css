@@ -1,72 +1,84 @@
+h1 {
+  display: flex;
+  text-align: left;
+  width: 97%;
+  margin: 10px;
+}
+
 form {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    input {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-    }
-    textarea {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-      height: 100px;
-    }
+  width: 100%;
+  input {
+    width: 60%;
+    margin: 5px 10px 10px 0;
+    padding: 5px;
   }
+  textarea {
+    width: 60%;
+    margin: 5px 10px 10px 0;
+    padding: 3px;
+  }
+}
 
-  .ingredient-container {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    input {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-    }
-    textarea {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-      height: 100px;
-    }
-  }
+label {
+  font-size: 18px;
+}
 
-  .instructions-container {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    input {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-    }
-    textarea {
-      align-self: center;
-      width: 90%;
-      margin: 5px 0;
-      height: 100px;
-    }
+.button-container {
+  margin: 5px 0 15px 0;
+  &.small {
+    font-size: 12px;
   }
+}
 
 .ingredient-header {
-    display: flex;
-    width: 150px;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  &:hover {
+    text-decoration: underline;
   }
-  
-  .instruction-header {
-    display: flex;
-    width: 150px;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-  }
+}
 
-  .measurements {
-    display: flex;
-    justify-content: space-between;
+.instruction-header {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.ingredient {
+  border: 1px solid lightgray;
+  width: 60%;
+  padding: 10px;
+  margin: 10px 0;
+  input {
+    width: 95%;
   }
+  textarea {
+    width: 95%;
+  }
+}
+
+.measurements {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  input {
+    width: 100%;
+  }
+}
+
+.close {
+  cursor: pointer;
+}
+
+.chevron {
+  margin: 0 10px;
+}
+
+#name {
+  width: 60%;
+}
+
+#preamble {
+  width: 60%;
+}

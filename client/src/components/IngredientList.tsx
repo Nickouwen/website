@@ -7,7 +7,7 @@ const IngredientList = ({ ingredients, volumetric }: Ingredients) => {
             {ingredients.map((ingredient, index) => {
                 return (
                     <li key={index}>
-                        <span className="ingredient">{volumetric? ingredient.measurements.volumetric : ingredient.measurements.weight} {ingredient.name}</span>
+                        <span>{volumetric? ingredient.measurements.volumetric : ingredient.measurements.weight} {ingredient.name}</span>
                         <br />
                         <span className="notes">{ingredient.notes}</span>
                     </li>

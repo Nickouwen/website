@@ -86,8 +86,9 @@ const RecipeCard = ({ recipe, volumetric, handleDelete }: RecipeProp) => {
           <div className="separator"></div>
           <ol>
             {instructions.map((instruction, index) => {
-              return <li key={index}>{instruction}</li>;
-            })}
+              return (
+              <li key={index}>{instruction}</li>
+              )})}
           </ol>
         </div>
       </div>

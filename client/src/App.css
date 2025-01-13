@@ -26,6 +26,14 @@ body.no-scroll {
     background-color: white;
     transition: transform 0.1s linear;
   }
+  &.main-button {
+    box-shadow: inset 1px 1px 0 black, inset -1px -1px 0 black;
+    span {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+    }
+  }
 }
 
 .toggle {
@@ -55,6 +63,7 @@ body.no-scroll {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.633);
   z-index: 100;
 }
 
@@ -68,8 +77,9 @@ body.no-scroll {
   flex-direction: column;
 }
 
-.close {
-  cursor: pointer;
+.separator {
+  margin: 10px 0 10px 0;
+  border-bottom: 1px solid lightgray;
 }
 
 #volumetric-button {

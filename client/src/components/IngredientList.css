@@ -1,5 +1,9 @@
+li {
+    margin: 10px 0;
+}
+
 .notes {
     font-style: italic;
     font-size: 14px;
-    margin-left: 20px;
+    margin: 0 0 15px 30px;
 }

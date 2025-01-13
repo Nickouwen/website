@@ -19,8 +19,9 @@ ul {
 }
 
 ol {
+    margin: 10 0;
     li {
-        margin: 10px 0;
+        margin: 10px 0 21px 0;
     }
 }
 
@@ -125,11 +126,6 @@ ol {
     &.visible {
         max-height: 500px;
     }
-}
-
-.separator {
-    margin: 10px 0 10px 0;
-    border-bottom: 1px solid lightgray;
 }
 
 .collapsible {

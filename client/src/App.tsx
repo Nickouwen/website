@@ -5,6 +5,7 @@ import testRecipe from './api/test-data/basque-cheesecake.ts'
 import RecipeCard from './components/RecipeCard.tsx'
 import { Beaker, Weight } from 'lucide-react'
 import AddRecipeModal from './components/AddRecipeModal.tsx'
+import { Recipe } from './types/Recipe.tsx'
 
 function App() {
   const [open, setOpen] = useState(false)
@@ -29,8 +30,9 @@ function App() {
     }
   })
 
-  const handleAdd = (recipe: JSON) => {
-    addRecipe(recipe).then(res => res.json()).then(data => setRecipes([...recipes, data]))
+  const handleAdd = (recipe: Recipe) => {
+    const newRecipe = JSON.parse(JSON.stringify(recipe))
+    addRecipe(newRecipe).then(res => res.json()).then(data => setRecipes([...recipes, data]))
   }
 
   const handleUpdate = (id: string, recipe: JSON) => {
@@ -87,7 +89,7 @@ function App() {
           )
         })}
       </div>
-      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} /> : null}
+      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} /> : null}
     </>
   )
 }
