@@ -4,29 +4,24 @@ import { addRecipe, deleteRecipe, getRecipes, updateRecipe } from './api/Recipes
 import testRecipe from './api/test-data/basque-cheesecake.ts'
 import RecipeCard from './components/RecipeCard.tsx'
 import { Beaker, Weight } from 'lucide-react'
-import { Recipe } from './types/Recipe.tsx'
+import AddRecipeModal from './components/AddRecipeModal.tsx'
 
 function App() {
-  const [ingredients, setIngredients] = useState([
-    {
-      name: "",
-      measurements: {
-        volumetric: "",
-        weight: ""
-      },
-      notes: ""
-    }
-  ])
+  const [open, setOpen] = useState(false)
   const [volumetric, setVolumetric] = useState(true)
-  const [recipes, setRecipes] = useState([{
-    id: "",
-    name: "",
-    ingredients: [],
-    instructions: [],
-    preamble: "",
-    author: ""
-  }])
+      const [recipes, setRecipes] = useState([{
+        id: "",
+        name: "",
+        ingredients: [],
+        instructions: [],
+        preamble: "",
+        author: ""
+      }])
 
+  const preventScrolling = () => {
+    document.body.classList.toggle('no-scroll')
+  }
+    
   window.addEventListener("mousedown", () => {
     const menu = document.querySelector('.options-menu')
     if (menu) {
@@ -59,25 +54,6 @@ function App() {
     setRecipes([...recipes])
   }
 
-  const addIngredient = () => {
-    setIngredients([...ingredients, {
-      name: "",
-      measurements: {
-        volumetric: "",
-        weight: ""
-      },
-      notes: ""
-    }])
-    console.log(ingredients)
-  }
-
-  const collapseIngredient = (index: number) => {
-    const ingredient = document.querySelector(`#ingredient-form-${index}`)
-    if (ingredient) {
-      ingredient.classList.toggle('visible')
-    }
-  }
-
   useEffect(() => {
     getRecipes().then((recipes) => {
       if (recipes) {
@@ -95,11 +71,11 @@ function App() {
         <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
           {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
         </div>
-        <div className="button-container"onClick={() => handleAdd(JSON.parse(testRecipe))}>
+        <div className="button-container" onClick={() => handleAdd(JSON.parse(testRecipe))}>
           <span>Add Test Recipe</span>
         </div>
         <div className="button-container">
-          <span>Add New Recipe</span>
+          <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
         </div>
       </header>
       <div>
@@ -111,67 +87,7 @@ function App() {
           )
         })}
       </div>
-      <div className="modal-bg">
-        <div className="modal">
-          <h4>Add New Recipe</h4>
-          <form>
-            <label htmlFor="name">Recipe Name</label> 
-            <br/>
-            <input type="text" id="name" />
-            <br/>
-            <label htmlFor="preamble">Overview</label>
-            <br/>
-            <textarea id="preamble" />
-            <br/>
-            <label htmlFor="ingredients">Ingredients:</label>
-            <br/>
-            <div id="ingredient-container">
-              {ingredients.map((_, index) => {
-                return (
-                  <div key={index} id={`ingredient-${index}`}>
-                    <label htmlFor={`ingredient-${index}-name`}>Ingredient Name</label>
-                    <br/>
-                    <input type="text" id={`ingredient-${index}-name`} />
-                    <br/>
-                    <span onClick={() => collapseIngredient(index)}>Collapse</span>
-                    <div className="collapsible visible" id={`ingredient-form-${index}`}>
-                      <label htmlFor={`ingredient-${index}-category`}>Categories</label>
-                      <br/>
-                      <input type="checkbox" id={`ingredient-${index}-category-sweet`} />
-                      <label htmlFor={`ingredient-${index}-category-sweet`}>Sweet</label>
-                      <input type="checkbox" id={`ingredient-${index}-category-savoury`} />
-                      <label htmlFor={`ingredient-${index}-category-salty`}>Savoury</label>
-                      <input type="checkbox" id={`ingredient-${index}-category-spicy`} />
-                      <label htmlFor={`ingredient-${index}-category-spicy`}>Spicy</label>
-                      <input type="checkbox" id={`ingredient-${index}-category-baked`} />
-                      <label htmlFor={`ingredient-${index}-category-pastry`}>Baked Goods</label>
-                      <input type="checkbox" id={`ingredient-${index}-category-pasta`} />
-                      <label htmlFor={`ingredient-${index}-category-pasta`}>Pasta</label>
-                      <input type="checkbox" id={`ingredient-${index}-category-vegetarian`} />
-                      <label htmlFor={`ingredient-${index}-category-vegetarian`}>Vegetarian</label>
-                      <br/>
-                      <label htmlFor={`ingredient-${index}-volumetric`}>Volumetric</label>
-                      <br/>
-                      <input type="text" id={`ingredient-${index}-volumetric`} />
-                      <br/>
-                      <label htmlFor={`ingredient-${index}-weight`}>Weight</label>
-                      <br/>
-                      <input type="text" id={`ingredient-${index}-weight`} />
-                      <br/>
-                      <label htmlFor={`ingredient-${index}-notes`}>Notes</label>
-                      <br/>
-                      <textarea id={`ingredient-${index}-notes`} />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-            <div className="button-container" onClick={() => addIngredient()}>
-              <span>Add Ingredient</span>
-            </div>
-          </form>
-        </div>
-      </div>
+      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} /> : null}
     </>
   )
 }

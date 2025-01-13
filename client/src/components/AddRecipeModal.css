@@ -1,0 +1,72 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    input {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+    }
+    textarea {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+      height: 100px;
+    }
+  }
+
+  .ingredient-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    input {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+    }
+    textarea {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+      height: 100px;
+    }
+  }
+
+  .instructions-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    input {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+    }
+    textarea {
+      align-self: center;
+      width: 90%;
+      margin: 5px 0;
+      height: 100px;
+    }
+  }
+
+.ingredient-header {
+    display: flex;
+    width: 150px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .instruction-header {
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .measurements {
+    display: flex;
+    justify-content: space-between;
+  }
