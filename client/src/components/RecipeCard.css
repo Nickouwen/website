@@ -1,4 +1,11 @@
-h4 {
+h2 {
+    max-width: 50%;
+    &.toggle {
+        cursor: pointer;
+    }
+}
+
+h3 {
     margin: 0;
     padding: 0;
 }
@@ -11,23 +18,45 @@ ul {
     }
 }
 
+ol {
+    li {
+        margin: 10px 0;
+    }
+}
+
 .toggle-container {
     display: flex;
     justify-content: space-between;
     transition: all 0.3s ease;
-    .toggle {
+    .header {
         min-width: 125px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        cursor: pointer;
-        &:hover {
-            text-decoration: underline;
-        };
         span {
             margin-left: 15px;
         };
     };
+    .instructions-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+    }
+    .ingredients-container {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+    }
+}
+
+.chevron {
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+    &.flipped {
+        transform: rotate(180deg);
+    }
 }
 
 .options-container {
@@ -83,6 +112,7 @@ ul {
     max-height: 0;
     transition: max-height 0.3s ease;
     overflow: hidden;
+    display: block;
     &.visible {
         max-height: 500px;
     }
@@ -100,4 +130,13 @@ ul {
 .separator {
     margin: 10px 0 10px 0;
     border-bottom: 1px solid lightgray;
+}
+
+.collapsible {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    &.visible {
+        max-height: 500px;
+    }
 }
