@@ -3,13 +3,18 @@ import { Recipe } from "../types/Recipe";
 import { ChevronDown, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import "./RecipeCard.css";
 import { useState } from "react";
+import AddRecipeModal from "./AddRecipeModal";
 interface RecipeProp {
   recipe: Recipe;
   volumetric: boolean;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  preventScrolling: () => void;
   handleDelete: (id: string) => void;
+  handleUpdate: (id: string, recipe: JSON) => void;
 }
 
-const RecipeCard = ({ recipe, volumetric, handleDelete }: RecipeProp) => {
+const RecipeCard = ({ recipe, volumetric, handleDelete, handleUpdate, preventScrolling }: RecipeProp) => {
   const { name, ingredients, instructions, preamble } = recipe;
   const [editMode, setEditMode] = useState(false);
 
@@ -92,6 +97,7 @@ const RecipeCard = ({ recipe, volumetric, handleDelete }: RecipeProp) => {
           </ol>
         </div>
       </div>
+      {editMode? <AddRecipeModal open={editMode} setOpen={setEditMode} preventScrolling={preventScrolling} handleUpdate={handleUpdate} recipe={recipe} /> : null}
     </>
   );
 };

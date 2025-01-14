@@ -24,9 +24,11 @@ function App() {
   }
     
   window.addEventListener("mousedown", () => {
-    const menu = document.querySelector('.options-menu')
+    const menu = document.querySelectorAll('.options-menu')
     if (menu) {
-      menu.classList.remove('visible')
+      menu.forEach((menu) => {
+        menu.classList.remove('visible')
+      })
     }
   })
 
@@ -36,14 +38,9 @@ function App() {
   }
 
   const handleUpdate = (id: string, recipe: JSON) => {
-    updateRecipe(id, recipe).then(res => res.json()).then(data => {
-      for (let i = 0; i < recipes.length; i++) {
-        if (recipes[i].id === id) {
-          recipes[i] = data
-        }
-      }
-      setRecipes([...recipes])
-    })
+    console.log("Updating recipe", recipe)
+    updateRecipe(id, recipe)
+    setRecipes([...recipes])
   }
 
   const handleDelete = (id: string) => {
@@ -84,12 +81,12 @@ function App() {
         {recipes.map((recipe) => {
           return (
             <div className="recipe-card" key={recipe.id}>
-              <RecipeCard recipe={recipe} volumetric={volumetric} handleDelete={handleDelete} />
+              <RecipeCard recipe={recipe} volumetric={volumetric} handleDelete={handleDelete} handleUpdate={handleUpdate} open={open} setOpen={setOpen} preventScrolling={preventScrolling} />
             </div>
           )
         })}
       </div>
-      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} /> : null}
+      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} recipe={{id: "", name: "", preamble: "", ingredients: [], instructions: [], author: ""}} /> : null}
     </>
   )
 }

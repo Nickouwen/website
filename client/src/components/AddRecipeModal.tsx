@@ -7,25 +7,35 @@ const AddRecipeModal = ({
   setOpen,
   preventScrolling,
   handleAdd,
+  handleUpdate,
+  recipe,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   preventScrolling: () => void;
-  handleAdd: (recipe: Recipe) => void;
+  handleAdd?: (recipe: Recipe) => void;
+  handleUpdate?: (id: string, recipe: JSON) => void;
+  recipe?: Recipe;
 }) => {
-  const [name, setName] = useState("");
-  const [preamble, setPreamble] = useState("");
-  const [ingredients, setIngredients] = useState([
-    {
-      name: "",
-      measurements: {
-        volumetric: "",
-        weight: "",
-      },
-      notes: "",
-    },
-  ]);
-  const [instructions, setInstructions] = useState([""]);
+  const [name, setName] = useState(recipe ? recipe.name : "");
+  const [preamble, setPreamble] = useState(recipe ? recipe.preamble : "");
+  const [ingredients, setIngredients] = useState(
+    recipe
+      ? recipe.ingredients
+      : [
+          {
+            name: "",
+            measurements: {
+              volumetric: "",
+              weight: "",
+            },
+            notes: "",
+          },
+        ]
+  );
+  const [instructions, setInstructions] = useState(
+    recipe ? recipe.instructions : [""]
+  );
 
   const addIngredient = () => {
     setIngredients([
@@ -113,26 +123,47 @@ const AddRecipeModal = ({
         <form>
           <label htmlFor="name">Recipe Name</label>
           <br />
-          <input type="text" id="name" placeholder="ex. Chocolate Chip Cookies" onChange={(e) => setName(e.target.value)} />
+          <input
+            type="text"
+            id="name"
+            placeholder="ex. Chocolate Chip Cookies"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
           <br />
           <label htmlFor="preamble">Overview</label>
           <br />
-          <textarea id="preamble" rows={5} placeholder="This is a description of the recipe, if any is required"  onChange={(e) => setPreamble(e.target.value)}/>
+          <textarea
+            id="preamble"
+            rows={5}
+            placeholder="This is a description of the recipe, if any is required"
+            onChange={(e) => setPreamble(e.target.value)}
+            value={preamble}
+          />
           <br />
           <label htmlFor="ingredients">Ingredients:</label>
           <br />
           <div id="ingredient-container">
             {ingredients.map((_, index) => {
               return (
-                <div key={index} className="ingredient" id={`ingredient-${index}`}>
+                <div
+                  key={index}
+                  className="ingredient"
+                  id={`ingredient-${index}`}
+                >
                   <span className="ingredient-header">
                     <label htmlFor={`ingredient-${index}-name`}>
-                    <span
-                    className="toggle"
-                    onClick={() => collapseIngredient(index)}
-                  >
-                    Ingredient Name<ChevronUp className={"chevron chevron-" + index} width="16" height="16" />
-                  </span>
+                      <span
+                        className="toggle"
+                        onClick={() => collapseIngredient(index)}
+                      >
+                        Ingredient Name
+                        <ChevronUp
+                          className={"chevron chevron-" + index}
+                          width="16"
+                          height="16"
+                        />
+                      </span>
                     </label>
                     <X
                       className="close"
@@ -148,6 +179,7 @@ const AddRecipeModal = ({
                       updateIngredient(e.target.value, index, "name")
                     }
                     placeholder="ex. Cream Cheese"
+                    value={ingredients[index].name}
                   />
                   <div
                     className="collapsible visible"
@@ -170,6 +202,7 @@ const AddRecipeModal = ({
                             )
                           }
                           placeholder="ex. 1 cup"
+                          value={ingredients[index].measurements.volumetric}
                         />
                       </div>
                       <br />
@@ -185,6 +218,7 @@ const AddRecipeModal = ({
                             updateIngredient(e.target.value, index, "weight")
                           }
                           placeholder="ex. 250g"
+                          value={ingredients[index].measurements.weight}
                         />
                       </div>
                     </div>
@@ -198,19 +232,23 @@ const AddRecipeModal = ({
                       }
                       placeholder="ex. Substitute with..."
                       rows={3}
+                      value={ingredients[index].notes}
                     />
                   </div>
                 </div>
               );
             })}
-            <div className="button-container small" onClick={() => addIngredient()}>
+            <div
+              className="button-container small"
+              onClick={() => addIngredient()}
+            >
               <span>New Ingredient</span>
             </div>
           </div>
           <label htmlFor="instructions">Instructions:</label>
           <br />
           <div id="instructions-container">
-            {instructions.map((instruction, index) => {
+            {instructions.map((instruction: string, index: number) => {
               return (
                 <div key={index}>
                   <span className="instruction-header">
@@ -274,20 +312,48 @@ const AddRecipeModal = ({
                 </div>
               );
             })}
-            <div className="button-container small" onClick={() => addInstruction()}>
+            <div
+              className="button-container small"
+              onClick={() => addInstruction()}
+            >
               <span>New Instruction</span>
             </div>
           </div>
-          <div className="button-container main-button" onClick={() => {handleAdd({
-            id: "",
-            name: name,
-            ingredients: ingredients,
-            instructions: instructions,
-            preamble: preamble,
-            author: ""
-          }); setOpen(false)}}>
-            <span>Add Recipe</span>
-          </div>
+          {handleAdd ? (
+            <div
+              className="button-container main-button"
+              onClick={() => {
+                handleAdd({
+                  id: "",
+                  name: name,
+                  ingredients: ingredients,
+                  instructions: instructions,
+                  preamble: preamble,
+                  author: "",
+                });
+                setOpen(false);
+              }}
+            >
+              <span>Add Recipe</span>
+            </div>
+          ) : handleUpdate && recipe ? (
+            <div
+              className="button-container main-button"
+              onClick={() => {
+                handleUpdate(recipe.id, JSON.parse(JSON.stringify({
+                  id: recipe.id,
+                  name: name,
+                  ingredients: ingredients,
+                  instructions: instructions,
+                  preamble: preamble,
+                  author: "",
+                })));
+                setOpen(false);
+              }}
+            >
+              <span>Edit Recipe</span>
+            </div>
+          ) : null}
         </form>
       </div>
     </>

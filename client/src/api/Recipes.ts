@@ -12,11 +12,13 @@ const addRecipe = async (recipe: JSON) => {
 
 const getRecipes = async () => {
     const response = await fetch('http://localhost:80/recipes').then(res => res.json())
+    console.log(response)
     return response
 }
 
 const getRecipe = async (id: string) => {
     const response = await fetch(`http://localhost:80/recipes/${id}`).then(res => res.json())
+    console.log(response)
     return response
 }
 
@@ -27,7 +29,8 @@ const updateRecipe = async (id: string, recipe: JSON) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(recipe)
-    }).then(res => res.json())
+    })
+    console.log(response)
     return response
 }
 
@@ -35,6 +38,7 @@ const deleteRecipe = async (id: string) => {
     const response = await fetch(`http://localhost:80/recipes/${id}`, {
         method: 'DELETE'
     })
+    console.log(response)
     return response
 }
 
