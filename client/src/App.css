@@ -2,6 +2,16 @@ body.no-scroll {
   overflow: hidden;
 }
 
+.title {
+  display: flex;
+  justify-content: space-between
+
+}
+
+.switch {
+  cursor: pointer;
+}
+
 .button-container {
   margin: 5px 0;
   display: inline-flex;

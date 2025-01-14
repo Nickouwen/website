@@ -7,13 +7,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 func main() {
+	uri := os.Getenv("MONGO_CONN_STR")
+
+	log.Print("Uri: ", uri)
 
 	mydb, err := db.New(
-		"mongodb://user:pass@mongodb:27017",
+		uri,
 		10,
 		10*time.Second,
 	)

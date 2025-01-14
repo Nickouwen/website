@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { addRecipe, deleteRecipe, getRecipes, updateRecipe } from './api/Recipes.ts'
-import testRecipe from './api/test-data/basque-cheesecake.ts'
 import RecipeCard from './components/RecipeCard.tsx'
 import { Beaker, Weight } from 'lucide-react'
 import AddRecipeModal from './components/AddRecipeModal.tsx'
@@ -10,14 +9,14 @@ import { Recipe } from './types/Recipe.tsx'
 function App() {
   const [open, setOpen] = useState(false)
   const [volumetric, setVolumetric] = useState(true)
-      const [recipes, setRecipes] = useState([{
-        id: "",
-        name: "",
-        ingredients: [],
-        instructions: [],
-        preamble: "",
-        author: ""
-      }])
+  const [recipes, setRecipes] = useState([{
+    id: "",
+    name: "",
+    ingredients: [],
+    instructions: [],
+    preamble: "",
+    author: ""
+  }])
 
   const preventScrolling = () => {
     document.body.classList.toggle('no-scroll')
@@ -64,30 +63,32 @@ function App() {
   }, [])
 
   return (
-    <>
-      <header>
-        <h1>Nic's React App</h1>
-        <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
-          {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
-        </div>
-        <div className="button-container" onClick={() => handleAdd(JSON.parse(testRecipe))}>
-          <span>Add Test Recipe</span>
-        </div>
-        <div className="button-container">
-          <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
-        </div>
-      </header>
-      <div>
-        {recipes.map((recipe) => {
-          return (
-            <div className="recipe-card" key={recipe.id}>
-              <RecipeCard recipe={recipe} volumetric={volumetric} handleDelete={handleDelete} handleUpdate={handleUpdate} open={open} setOpen={setOpen} preventScrolling={preventScrolling} />
+      <>
+        <header>
+          <div className="title">
+            <h1>Nic's React App</h1>
+            <div className="switch">
+              
             </div>
-          )
-        })}
-      </div>
-      {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} recipe={{id: "", name: "", preamble: "", ingredients: [], instructions: [], author: ""}} /> : null}
-    </>
+            </div>
+          <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
+            {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
+          </div>
+          <div className="button-container">
+            <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
+          </div>
+        </header>
+        <div>
+          {recipes.map((recipe) => {
+            return (
+              <div className="recipe-card" key={recipe.id}>
+                <RecipeCard recipe={recipe} volumetric={volumetric} handleDelete={handleDelete} handleUpdate={handleUpdate} open={open} setOpen={setOpen} preventScrolling={preventScrolling} />
+              </div>
+            )
+          })}
+        </div>
+        {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} recipe={{id: "", name: "", preamble: "", ingredients: [], instructions: [], author: ""}} /> : null}
+      </>
   )
 }
 
