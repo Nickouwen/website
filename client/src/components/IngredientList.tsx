@@ -1,7 +1,12 @@
 import './IngredientList.css'
 import { Ingredients } from '../types/Ingredient'
 
-const IngredientList = ({ ingredients, volumetric }: Ingredients) => {
+interface IngredientListProps {
+    ingredients: Ingredients['ingredients']
+    volumetric: boolean
+}
+
+const IngredientList = ({ ingredients, volumetric }: IngredientListProps) => {
     return (
         <div>
             {ingredients.map((ingredient, index) => {

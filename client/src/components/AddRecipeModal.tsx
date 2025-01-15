@@ -129,6 +129,7 @@ const AddRecipeModal = ({
             placeholder="ex. Chocolate Chip Cookies"
             onChange={(e) => setName(e.target.value)}
             value={name}
+            required
           />
           <br />
           <label htmlFor="preamble">Overview</label>
@@ -180,6 +181,7 @@ const AddRecipeModal = ({
                     }
                     placeholder="ex. Cream Cheese"
                     value={ingredients[index].name}
+                    required
                   />
                   <div
                     className="collapsible visible"
@@ -203,6 +205,7 @@ const AddRecipeModal = ({
                           }
                           placeholder="ex. 1 cup"
                           value={ingredients[index].measurements.volumetric}
+                          required
                         />
                       </div>
                       <br />
