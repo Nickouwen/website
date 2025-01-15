@@ -125,9 +125,14 @@ function App() {
               {searchBar === "ingredients" && <input type="text" placeholder="Search by ingredient" onChange={(e) => handleSearch(e, "ingredients")} id="ingredient-search" />}
               {searchBar === "category" && <input type="text" placeholder="Search by category" onChange={(e) => handleSearch(e, "category")} id="category-search" />}
               <div className="recipe-index">
-                {recipes.map((recipe) => (
-                  <div className="recipe-index-item" key={recipe.id} onClick={() => scrollToDiv(recipe.id)}>
-                    <span>{recipe.name}</span>
+                {Object.entries(recipesByAuthor).map(([author, recipes]) => (
+                  <div key={author} className="author-section" id={author}>
+                    <h3>{author}</h3>
+                    {recipes.map((recipe: Recipe) => (
+                      <div className="recipe-index-item" key={recipe.id} onClick={() => scrollToDiv(recipe.id)}>
+                        <span>{recipe.name}</span>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>

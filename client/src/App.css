@@ -27,6 +27,9 @@ body.no-scroll {
     margin: 10px;
     padding: 5px;
   }
+  h1 {
+    margin: 10px 10px;
+  }
   span {
     margin: 0 10px;
   }
@@ -36,6 +39,9 @@ body.no-scroll {
     &:hover {
       text-decoration: underline;
     }
+  }
+  .author-section {
+    margin: 10px 0;
   }
 }
 
