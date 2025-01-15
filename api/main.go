@@ -12,7 +12,12 @@ import (
 )
 
 func main() {
+	log.Print("Program started")
 	uri := os.Getenv("MONGO_CONN_STR")
+
+	if uri == "" {
+		log.Fatal("MONGO_CONN_STR is not set")
+	}
 
 	log.Print("Uri: ", uri)
 
@@ -36,8 +41,8 @@ func main() {
 	mux.Handle("/recipes", recipesHandler)
 	mux.Handle("/recipes/", recipesHandler)
 
-	fmt.Println("Listening on port 80")
-	http.ListenAndServe(":80", muxCors)
+	fmt.Println("Listening on port 8080")
+	http.ListenAndServe(":8080", muxCors)
 }
 
 func enableCors(h http.Handler) http.Handler {

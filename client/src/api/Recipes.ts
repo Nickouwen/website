@@ -1,5 +1,5 @@
 const addRecipe = async (recipe: JSON) => {
-    const response = await fetch('http://localhost:80/recipes', {
+    const response = await fetch('https://recipe-api-1052140280976.us-west1.run.app/recipes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -11,19 +11,19 @@ const addRecipe = async (recipe: JSON) => {
 }
 
 const getRecipes = async () => {
-    const response = await fetch('http://localhost:80/recipes').then(res => res.json())
+    const response = await fetch('https://recipe-api-1052140280976.us-west1.run.app/recipes').then(res => res.json())
     console.log(response)
     return response
 }
 
 const getRecipe = async (id: string) => {
-    const response = await fetch(`http://localhost:80/recipes/${id}`).then(res => res.json())
+    const response = await fetch(`https://recipe-api-1052140280976.us-west1.run.app/recipes/${id}`).then(res => res.json())
     console.log(response)
     return response
 }
 
 const updateRecipe = async (id: string, recipe: JSON) => {
-    const response = await fetch(`http://localhost:80/recipes/${id}`, {
+    const response = await fetch(`https://recipe-api-1052140280976.us-west1.run.app/recipes/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const updateRecipe = async (id: string, recipe: JSON) => {
 }
 
 const deleteRecipe = async (id: string) => {
-    const response = await fetch(`http://localhost:80/recipes/${id}`, {
+    const response = await fetch(`https://recipe-api-1052140280976.us-west1.run.app/recipes/${id}`, {
         method: 'DELETE'
     })
     console.log(response)

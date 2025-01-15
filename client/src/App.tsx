@@ -7,6 +7,7 @@ import AddRecipeModal from './components/AddRecipeModal.tsx'
 import { Recipe } from './types/Recipe.tsx'
 
 function App() {
+  const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [volumetric, setVolumetric] = useState(true)
   const [recipes, setRecipes] = useState([{
@@ -59,8 +60,15 @@ function App() {
       } else {
         setRecipes([])
       }
+      setLoading(false)
     });
   }, [])
+
+  if (loading) {
+    return (
+      <div className="loading">Loading recipes...</div>
+    )
+  }
 
   return (
       <>

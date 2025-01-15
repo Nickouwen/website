@@ -20,11 +20,10 @@ services:
         target: /etc/nginx/conf.d/default.conf
         read_only: true
     ports:
-      - 80:80
+      - 8080:8080
     depends_on:
       - backend
   backend:
-    image: recipe-site/api
     build:
       context: api
       target: builder
