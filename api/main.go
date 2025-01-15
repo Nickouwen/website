@@ -41,8 +41,12 @@ func main() {
 	mux.Handle("/recipes", recipesHandler)
 	mux.Handle("/recipes/", recipesHandler)
 
-	fmt.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", muxCors)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default to 8080 if not set
+	}
+	fmt.Println("Listening on port ", port)
+	http.ListenAndServe(":"+port, muxCors)
 }
 
 func enableCors(h http.Handler) http.Handler {

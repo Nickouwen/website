@@ -74,7 +74,7 @@ function App() {
       <>
         <header>
           <div className="title">
-            <h1>Nic's React App</h1>
+            <h1>My Family Recipes</h1>
             <div className="switch">
               
             </div>
