@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { addRecipe, deleteRecipe, getRecipes, updateRecipe } from './api/Recipes.ts'
 import RecipeCard from './components/RecipeCard.tsx'
@@ -51,7 +51,7 @@ function App() {
     }
   })
 
-  const recipesByAuthor = recipes.reduce((acc, recipe) => {
+  const recipesByAuthor = recipes.reduce((acc: { [key: string]: Recipe[] }, recipe) => {
     const author = recipe.author || 'Unknown Author'; // Handle recipes without an author
     acc[author] = acc[author] || [];
     acc[author].push(recipe);
