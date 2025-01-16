@@ -8,16 +8,18 @@ interface RecipeProp {
   recipe: Recipe;
   volumetric: boolean;
   open: boolean;
+  user: string;
   setOpen: (open: boolean) => void;
   preventScrolling: () => void;
   handleDelete: (id: string) => void;
   handleUpdate: (id: string, recipe: JSON) => void;
 }
 
-const RecipeCard = ({ recipe, volumetric, handleDelete, handleUpdate, preventScrolling }: RecipeProp) => {
+const RecipeCard = ({ recipe, volumetric, user, handleDelete, handleUpdate, preventScrolling }: RecipeProp) => {
   const { name, ingredients, instructions, preamble } = recipe;
   const [editMode, setEditMode] = useState(false);
 
+  console.log(user);
   const handleMenuClick = () => {
     const menu = document.querySelector(".tooltip" + recipe.id);
     if (menu) {
@@ -53,7 +55,7 @@ const RecipeCard = ({ recipe, volumetric, handleDelete, handleUpdate, preventScr
           className={"toggle chevron chevron" + recipe.id}
         />
       </h2>
-      <div className="options-container">
+      {(user != "Unknown") && <div className="options-container">
         <EllipsisVertical
           className="options"
           onClick={() => {
@@ -78,7 +80,7 @@ const RecipeCard = ({ recipe, volumetric, handleDelete, handleUpdate, preventScr
             </li>
           </ul>
         </div>
-      </div>
+      </div>}
       <p>{preamble}</p>
       <div className={`toggle-container collapsible collapsible${recipe.id}`}>
         <div className="ingredients-container">
@@ -97,7 +99,7 @@ const RecipeCard = ({ recipe, volumetric, handleDelete, handleUpdate, preventScr
           </ol>
         </div>
       </div>
-      {editMode? <AddRecipeModal open={editMode} setOpen={setEditMode} preventScrolling={preventScrolling} handleUpdate={handleUpdate} recipe={recipe} /> : null}
+      {editMode && <AddRecipeModal open={editMode} setOpen={setEditMode} preventScrolling={preventScrolling} handleUpdate={handleUpdate} recipe={recipe} author={user} />}
     </>
   );
 };

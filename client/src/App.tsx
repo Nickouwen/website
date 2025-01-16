@@ -2,17 +2,20 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { addRecipe, deleteRecipe, getRecipes, updateRecipe } from './api/Recipes.ts'
 import RecipeCard from './components/RecipeCard.tsx'
-import { Beaker, Weight } from 'lucide-react'
+import { Beaker, Menu, Weight } from 'lucide-react'
 import AddRecipeModal from './components/AddRecipeModal.tsx'
 import { Recipe } from './types/Recipe.tsx'
+import { Ingredient } from './types/Ingredient.tsx'
+import Login from './components/Login.tsx'
 
 function App() {
-  const [loading, setLoading] = useState(true)
+  const [loggedIn, setLoggedIn] = useState(false)
   const [searchRecipe, setSearchRecipe] = useState("")
   const [searchIngredients, setSearchIngredients] = useState("")
   const [searchBar, setSearchBar] = useState("recipes")
   const [open, setOpen] = useState(false)
   const [volumetric, setVolumetric] = useState(true)
+  const [user, setUser] = useState("")
   const [recipes, setRecipes] = useState([{
     id: "",
     name: "",
@@ -42,14 +45,30 @@ function App() {
     }
   })
 
-  window.addEventListener("mousedown", () => {
+  window.addEventListener("mousedown", (e) => {
+    const x = window.matchMedia("(max-width: 600px)")
+    const index = document.querySelector('.index')
+    const indexBg = document.querySelector('.mobile-index-bg')
     const menu = document.querySelectorAll('.options-menu')
+    if (x.matches) {
+      if (!index?.contains(e.target as Node)) {
+        index?.classList.remove('visible')
+        indexBg?.classList.remove('visible')
+      }
+    }
     if (menu) {
       menu.forEach((menu) => {
         menu.classList.remove('visible')
       })
     }
   })
+
+  const toggleIndex = () => {
+    const index = document.querySelector('.index')
+    const indexBg = document.querySelector('.mobile-index-bg')
+    indexBg?.classList.toggle('visible')
+    index?.classList.toggle('visible')
+  }
 
   const recipesByAuthor = recipes.reduce((acc: { [key: string]: Recipe[] }, recipe) => {
     const author = recipe.author || 'Unknown Author'; // Handle recipes without an author
@@ -71,6 +90,21 @@ function App() {
 
   const handleAdd = (recipe: Recipe) => {
     const newRecipe = JSON.parse(JSON.stringify(recipe))
+    if (newRecipe.ingredients.length === 0) {
+      newRecipe.ingredients.push({
+        name: "",
+        measurements: {
+          volumetric: "",
+          weight: ""
+        },
+        notes: ""
+      })
+    }
+    newRecipe.ingredients.forEach((ingredient: Ingredient) => {
+      if (ingredient.name === "") {
+        ingredient.name = "N/A"
+      }
+    })
     addRecipe(newRecipe).then(res => res.json()).then(data => setRecipes([...recipes, data]))
   }
 
@@ -91,19 +125,23 @@ function App() {
   }
 
   useEffect(() => {
-    getRecipes().then((recipes) => {
-      if (recipes) {
-        setRecipes(recipes)
-      } else {
-        setRecipes([])
-      }
-      setLoading(false)
-    });
-  }, [])
+    const user = localStorage.getItem("author")
+    if (user) {
+      setUser(user)
+      getRecipes().then((recipes) => {
+        if (recipes) {
+          setRecipes(recipes)
+        } else {
+          setRecipes([])
+        }
+        setLoggedIn(true)
+      });
+    }
+  }, [loggedIn])
 
-  if (loading) {
+  if (!loggedIn) {
     return (
-      <div className="loading">Loading recipes...</div>
+      <Login setLoggedIn={setLoggedIn} />
     )
   }
 
@@ -113,7 +151,21 @@ function App() {
           <div className="title">
             <h1>My Family Recipes</h1>
           </div>
-          <div className="index">
+          {(user != "Unknown") && <div className="button-container logout" onClick={() => {setLoggedIn(false); localStorage.removeItem("author")}}>
+            <span>Logout</span>
+          </div>}
+          {(user == "Unknown") && <div className="button-container logout" onClick={() => {setLoggedIn(false); localStorage.removeItem("author")}}>
+            <span>Log in</span>
+          </div>}
+          <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
+            {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
+          </div>
+          {(user != "Unknown") && <div className="button-container">
+            <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
+          </div>}
+        </header>
+        <div className="mobile-index-bg"></div>
+        <div className="index">
               <h1>Index</h1>
               <span>Search by</span>
               <select onChange={(e) => setSearchBar(e.target.value)}>
@@ -137,13 +189,7 @@ function App() {
                 ))}
               </div>
             </div>
-          <div className="button-container" id="volumetric-button" onClick={() => setVolumetric(!volumetric)}>
-            {volumetric? <span><Beaker width="16" height="16" />Volumetric</span> : <span><Weight width="16" height="16" /> Weight</span>}
-          </div>
-          <div className="button-container">
-            <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
-          </div>
-        </header>
+        <div className="burger" onClick={() => toggleIndex()}><Menu /></div>
         <div>
           {Object.entries(recipesByAuthor).map(([author, recipes]) => (
             <div key={author} className="author-section" id={author}>
@@ -154,6 +200,7 @@ function App() {
                     <RecipeCard
                       recipe={recipe}
                       volumetric={volumetric}
+                      user={user}
                       handleDelete={handleDelete}
                       handleUpdate={handleUpdate}
                       preventScrolling={preventScrolling}
@@ -166,7 +213,7 @@ function App() {
             </div>
           ))}
         </div>
-        {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} recipe={{id: "", name: "", preamble: "", ingredients: [], instructions: [], author: ""}} /> : null}
+        {open? <AddRecipeModal open={open} setOpen={setOpen} preventScrolling={preventScrolling} handleAdd={handleAdd} recipe={{id: "", name: "", preamble: "", ingredients: [], instructions: [], author: ""}} author={user} /> : null}
       </>
   )
 }

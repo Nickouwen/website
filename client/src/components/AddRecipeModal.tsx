@@ -8,6 +8,7 @@ const AddRecipeModal = ({
   preventScrolling,
   handleAdd,
   handleUpdate,
+  author,
   recipe,
 }: {
   open: boolean;
@@ -16,6 +17,7 @@ const AddRecipeModal = ({
   handleAdd?: (recipe: Recipe) => void;
   handleUpdate?: (id: string, recipe: JSON) => void;
   recipe?: Recipe;
+  author: string;
 }) => {
   const [name, setName] = useState(recipe ? recipe.name : "");
   const [preamble, setPreamble] = useState(recipe ? recipe.preamble : "");
@@ -332,9 +334,10 @@ const AddRecipeModal = ({
                   ingredients: ingredients,
                   instructions: instructions,
                   preamble: preamble,
-                  author: "",
+                  author: author,
                 });
                 setOpen(false);
+                preventScrolling();
               }}
             >
               <span>Add Recipe</span>
@@ -349,9 +352,10 @@ const AddRecipeModal = ({
                   ingredients: ingredients,
                   instructions: instructions,
                   preamble: preamble,
-                  author: "",
+                  author: author,
                 })));
                 setOpen(false);
+                preventScrolling();
               }}
             >
               <span>Edit Recipe</span>

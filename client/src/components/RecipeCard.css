@@ -76,7 +76,7 @@ ol {
     .options-menu {
         opacity: 0;
         font-size: 12px;
-        background-color: transparent;
+        background-color: white;
         border: 1px solid black;
         border-radius: 8px;
         position: absolute;
