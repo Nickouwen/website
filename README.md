@@ -48,4 +48,23 @@ api
             - port contains the interfaces that are used to implement the database calls separate from the database logic
 
 # Frontend Architecture:
-WIP
+```
+client
+  |---- public
+  |---- src
+         |--- api
+         |--- components
+         |--- types
+```
+
+- client is the parent folder for the frontend React portion of the website. I am using Typescript to learn it, as I have used React with Javascript before. The project was initialized through Vite's app initialization 'npm create vite@latest'. Inside client, I have two relevant folders; public and src. 
+
+    - public contains any images that React needs to display to the user, which in this case is only the favicon.
+
+    - src contains the source code for the React app, holding main.tsx and App.tsx, as well as the api, components, and types
+
+        - api contains any helper functions I need in order to make API calls to my Go API. For this project, it is just CRUD functions using fetch commands.
+
+        - components contains my React components and their relevant styling side-by-side.
+
+        - types contains the interfaces used by Typescript to describe the structure of my JSON objects. This leads to a few headaches, and I would be more careful when handling types next time I make a React app.
