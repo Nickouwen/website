@@ -9,8 +9,10 @@ import { Ingredient } from './types/Ingredient.tsx'
 import Login from './components/Login.tsx'
 
 function App() {
+  const [updated, setUpdated] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [searchRecipe, setSearchRecipe] = useState("")
+  const [loading, setLoading] = useState(true)
   const [searchIngredients, setSearchIngredients] = useState("")
   const [searchBar, setSearchBar] = useState("recipes")
   const [open, setOpen] = useState(false)
@@ -111,7 +113,7 @@ function App() {
   const handleUpdate = (id: string, recipe: JSON) => {
     console.log("Updating recipe", recipe)
     updateRecipe(id, recipe)
-    setRecipes([...recipes])
+    setUpdated(true)
   }
 
   const handleDelete = (id: string) => {
@@ -135,14 +137,23 @@ function App() {
           setRecipes([])
         }
         setLoggedIn(true)
+        setLoading(false)
       });
     }
-  }, [loggedIn])
+    setUpdated(false)
+  }, [loggedIn, updated])
 
   if (!loggedIn) {
+    if (loading) {
+      return <div>Loading...</div>
+    }
     return (
       <Login setLoggedIn={setLoggedIn} />
     )
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (
@@ -171,11 +182,9 @@ function App() {
               <select onChange={(e) => setSearchBar(e.target.value)}>
                 <option value="recipes">Recipes</option>
                 <option value="ingredients">Ingredients</option>
-                <option value="category">Category</option>
               </select>
               {searchBar === "recipes" && <input type="text" placeholder="Search by recipe" onChange={(e) => handleSearch(e, "recipes")} id="recipe-search" />}
               {searchBar === "ingredients" && <input type="text" placeholder="Search by ingredient" onChange={(e) => handleSearch(e, "ingredients")} id="ingredient-search" />}
-              {searchBar === "category" && <input type="text" placeholder="Search by category" onChange={(e) => handleSearch(e, "category")} id="category-search" />}
               <div className="recipe-index">
                 {Object.entries(recipesByAuthor).map(([author, recipes]) => (
                   <div key={author} className="author-section" id={author}>
