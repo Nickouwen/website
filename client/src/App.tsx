@@ -129,6 +129,7 @@ function App() {
   useEffect(() => {
     const user = localStorage.getItem("author")
     if (user) {
+      setLoggedIn(true)
       setUser(user)
       getRecipes().then((recipes) => {
         if (recipes) {
@@ -136,7 +137,6 @@ function App() {
         } else {
           setRecipes([])
         }
-        setLoggedIn(true)
         setLoading(false)
       });
     }
@@ -144,16 +144,17 @@ function App() {
   }, [loggedIn, updated])
 
   if (!loggedIn) {
-    if (loading) {
-      return <div>Loading...</div>
-    }
     return (
       <Login setLoggedIn={setLoggedIn} />
     )
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="loading">
+        <h1>Loading...</h1>
+      </div>
+    )
   }
 
   return (
