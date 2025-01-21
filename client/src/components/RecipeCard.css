@@ -115,7 +115,7 @@ ol {
     overflow: hidden;
     display: block;
     &.visible {
-        max-height: 500px;
+        max-height: 100%;
     }
 }
 
@@ -124,7 +124,7 @@ ol {
     transition: max-height 0.3s ease;
     overflow: hidden;
     &.visible {
-        max-height: 500px;
+        max-height: 100%;
     }
 }
 
@@ -133,6 +133,6 @@ ol {
     overflow: hidden;
     transition: max-height 0.3s ease;
     &.visible {
-        max-height: 500px;
+        max-height: 100%;
     }
 }
