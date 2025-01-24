@@ -19,7 +19,6 @@ const RecipeCard = ({ recipe, volumetric, user, handleDelete, handleUpdate, prev
   const { name, ingredients, instructions, preamble } = recipe;
   const [editMode, setEditMode] = useState(false);
 
-  console.log(user);
   const handleMenuClick = () => {
     const menu = document.querySelector(".tooltip" + recipe.id);
     if (menu) {

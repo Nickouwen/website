@@ -124,7 +124,7 @@ body.no-scroll {
 }
 
 .recipe-card {
-  width: 50em;
+  width: 60%;
   margin: 10px 0;
   position: relative;
   border: 1px solid lightgray;

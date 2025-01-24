@@ -7,21 +7,18 @@ const addRecipe = async (recipe: JSON) => {
         },
         body: JSON.stringify(recipe)
     })
-    console.log(response)
     return response
 }
 
 const getRecipes = async () => {
     console.log("Getting recipes")
     const response = await fetch('https://recipes-api-1052140280976.us-west1.run.app/recipes').then(res => res.json())
-    console.log(response)
     return response
 }
 
 const getRecipe = async (id: string) => {
     console.log("Getting recipe", id)
     const response = await fetch(`https://recipes-api-1052140280976.us-west1.run.app/recipes/${id}`).then(res => res.json())
-    console.log(response)
     return response
 }
 
@@ -34,7 +31,6 @@ const updateRecipe = async (id: string, recipe: JSON) => {
         },
         body: JSON.stringify(recipe)
     })
-    console.log(response)
     return response
 }
 
@@ -43,7 +39,6 @@ const deleteRecipe = async (id: string) => {
     const response = await fetch(`https://recipes-api-1052140280976.us-west1.run.app/recipes/${id}`, {
         method: 'DELETE'
     })
-    console.log(response)
     return response
 }
 
