@@ -27,6 +27,7 @@ body.no-scroll {
   input {
     margin: 10px;
     padding: 5px;
+    color: var(--text);
     background-color: var(--primary);
     border: 1px solid var(--border);
   }
@@ -34,6 +35,7 @@ body.no-scroll {
     margin: 10px;
     padding: 5px;
     background-color: var(--primary);
+    color: var(--text);
   }
   h1 {
     margin: 10px 10px;
@@ -130,7 +132,7 @@ body.no-scroll {
 }
 
 .recipe-card {
-  color: black;
+  color: var(--text);
   background-color: var(--recipe-card);
   width: 60%;
   margin: 10px 0;

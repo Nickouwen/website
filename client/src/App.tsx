@@ -60,6 +60,7 @@ function App() {
         root.style.setProperty('--button', '#FFFFFF')
         root.style.setProperty('--recipe-card', '#FFFFFF')
         root.style.setProperty('--input', '#FFFFFF')
+        root.style.setProperty('--text', '#000000')
         localStorage.setItem("theme", "basic")
         setTheme("basic")
         break
@@ -73,8 +74,23 @@ function App() {
         root.style.setProperty('--button', '#779977')
         root.style.setProperty('--recipe-card', '#E2E0C8')
         root.style.setProperty('--input', '#E2E0C8')
+        root.style.setProperty('--text', '#000000')
         localStorage.setItem("theme", "mom")
         setTheme("mom")
+        break
+      }
+      case "dark": {
+        root.style.setProperty('--primary', '#313342')
+        root.style.setProperty('--complementary', '#E0E1DD')
+        root.style.setProperty('--border', '#E0E1DD')
+        root.style.setProperty('--index', '#212533')
+        root.style.setProperty('--index-complementary', '#E0E1DD')
+        root.style.setProperty('--button', '#313340')
+        root.style.setProperty('--recipe-card', '#212533')
+        root.style.setProperty('--input', '#313342')
+        root.style.setProperty('--text', '#E0E1DD')
+        localStorage.setItem("theme", "dark")
+        setTheme("dark")
         break
       }
     }
@@ -216,6 +232,7 @@ function App() {
             <select onChange={(e) => toggleTheme(e.target.value)} defaultValue={theme}>
               <option value="basic">Basic</option>
               <option value="mom">Mom</option>
+              <option value="dark">Dark</option>
             </select>
           </div>
         </header>
