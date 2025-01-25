@@ -15,6 +15,7 @@
     z-index: 100;
     border: 1px solid var(--border);
     input {
+        color: var(--text);
         background-color: var(--input);
         margin: 10px;
         padding: 5px;
