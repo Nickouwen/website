@@ -9,6 +9,7 @@ import { Ingredient } from './types/Ingredient.tsx'
 import Login from './components/Login.tsx'
 
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "basic")
   const [updated, setUpdated] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [searchRecipe, setSearchRecipe] = useState("")
@@ -60,6 +61,7 @@ function App() {
         root.style.setProperty('--recipe-card', '#FFFFFF')
         root.style.setProperty('--input', '#FFFFFF')
         localStorage.setItem("theme", "basic")
+        setTheme("basic")
         break
       }
       case "mom": {
@@ -72,6 +74,7 @@ function App() {
         root.style.setProperty('--recipe-card', '#E2E0C8')
         root.style.setProperty('--input', '#E2E0C8')
         localStorage.setItem("theme", "mom")
+        setTheme("mom")
         break
       }
     }
@@ -210,7 +213,7 @@ function App() {
             <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
           </div>}
           <div className="theme-select">
-            <select onChange={(e) => toggleTheme(e.target.value)}>
+            <select onChange={(e) => toggleTheme(e.target.value)} defaultValue={theme}>
               <option value="basic">Basic</option>
               <option value="mom">Mom</option>
             </select>
