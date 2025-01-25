@@ -47,6 +47,16 @@ const Login = ({ setLoggedIn }: { setLoggedIn: (loggedIn: boolean) => void }) =>
                 setLoggedIn(true)
                 break
             }
+            case "0150": {
+                localStorage.setItem("author", "Grandma")
+                setLoggedIn(true)
+                break
+            }
+            case "5925": {
+                localStorage.setItem("author", "Tea")
+                setLoggedIn(true)
+                break
+            }
             default: {
                 document.getElementById("password")?.classList.add("wrong-password")
                 document.getElementById("password-error")?.classList.add("visible")
