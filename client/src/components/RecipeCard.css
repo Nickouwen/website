@@ -1,5 +1,5 @@
 h2 {
-    max-width: 50%;
+    max-width: 90%;
     &.toggle {
         cursor: pointer;
     }
@@ -76,8 +76,8 @@ ol {
     .options-menu {
         opacity: 0;
         font-size: 12px;
-        background-color: white;
-        border: 1px solid black;
+        background-color: var(--primary);
+        border: 1px solid var(--complementary);
         border-radius: 8px;
         position: absolute;
         right: 0px;

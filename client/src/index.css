@@ -1,3 +1,16 @@
-* {
-  font-family:Arial, Helvetica, sans-serif
+:root {
+  font-family:Arial, Helvetica, sans-serif;
+  --primary: #FFFFFF;
+  --complementary: #000000;
+  --border: #555555;
+  --index: #FFFFFF;
+  --index-complementary: #000000;
+  --button: #FFFFFF;
+  --recipe-card: #FFFFFF;
+  --input: #FFFFFF;
+}
+
+body {
+  background-color: var(--primary);
+  color: var(--complementary);
 }

@@ -12,24 +12,28 @@ body.no-scroll {
 }
 
 .index {
-  position: absolute;
+  background-color: var(--index);
+  position: fixed;
   display: flex;
   flex-direction: column;
   right: 0;
   top: 0;
   height: 100vh;
   width: 20%;
-  border-left: 1px solid lightgray;
+  border-left: 1px solid var(--border);
   padding: 10px;
   font-size: 16px;
   z-index: 100;
   input {
     margin: 10px;
     padding: 5px;
+    background-color: var(--primary);
+    border: 1px solid var(--border);
   }
   select {
     margin: 10px;
     padding: 5px;
+    background-color: var(--primary);
   }
   h1 {
     margin: 10px 10px;
@@ -54,6 +58,7 @@ body.no-scroll {
 }
 
 .button-container {
+  background-color: transparent;
   margin: 5px 0;
   display: inline-flex;
   border: none;
@@ -72,17 +77,18 @@ body.no-scroll {
   span {
     width: 100%;
     padding: 5px 10px;
-    border: 1px solid black;
+    border: 1px solid var(--border);
     cursor: pointer;
-    background-color: white;
+    background-color: var(--button);
+    color: var(--complementary);
     transition: transform 0.1s linear;
   }
   &.main-button {
     box-shadow: inset 1px 1px 0 black, inset -1px -1px 0 black;
     span {
-      background-color: black;
-      color: white;
-      border: 1px solid white;
+      background-color: var(--complementary);
+      color: var(--primary);
+      border: 1px solid var(--primary);
     }
   }
   &.logout {
@@ -116,7 +122,7 @@ body.no-scroll {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: var(--primary);
   padding: 20px;
   border-radius: 5px;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.633);
@@ -124,10 +130,12 @@ body.no-scroll {
 }
 
 .recipe-card {
+  color: black;
+  background-color: var(--recipe-card);
   width: 60%;
   margin: 10px 0;
   position: relative;
-  border: 1px solid lightgray;
+  border: 1px solid var(--border);
   padding: 0px 20px 10px 20px;
   display: flex;
   flex-direction: column;
@@ -153,7 +161,7 @@ body.no-scroll {
 
 .separator {
   margin: 10px 0 10px 0;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid var(--border);
 }
 
 #volumetric-button {
@@ -184,7 +192,7 @@ body.no-scroll {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    background-color: white;
+    background-color: var(--index);
     position: absolute;
     left: 0;
     top: 0;
@@ -194,7 +202,7 @@ body.no-scroll {
     padding: 0 10px;
   }
   .index.visible {
-    background-color: white;
+    background-color: var(--index);
     position: absolute;
     left: 0;
     top: 0;
@@ -207,5 +215,19 @@ body.no-scroll {
   }
   .recipe-card {
     width: 85%;
+  }
+}
+
+.theme-select {
+  display: flex;
+  text-align: center;
+  select {
+    width: 138.219px;
+    padding: 4px 5px;
+    margin: 3px 0;
+    background-color: var(--button);
+    color: var(--complementary);
+    border: 1px solid var(--border);
+    font-size: 16px;
   }
 }

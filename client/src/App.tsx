@@ -47,6 +47,36 @@ function App() {
     }
   })
 
+  const toggleTheme = (theme: string) => {
+    const root = document.documentElement
+    switch (theme) {
+      case "basic": {
+        root.style.setProperty('--primary', '#FFFFFF')
+        root.style.setProperty('--complementary', '#000000')
+        root.style.setProperty('--border', '#555555')
+        root.style.setProperty('--index', '#FFFFFF')
+        root.style.setProperty('--index-complementary', '#000000')
+        root.style.setProperty('--button', '#FFFFFF')
+        root.style.setProperty('--recipe-card', '#FFFFFF')
+        root.style.setProperty('--input', '#FFFFFF')
+        localStorage.setItem("theme", "basic")
+        break
+      }
+      case "mom": {
+        root.style.setProperty('--primary', '#A7B49E')
+        root.style.setProperty('--complementary', '#E2E0C8')
+        root.style.setProperty('--border', '#485242')
+        root.style.setProperty('--index', '#779977')
+        root.style.setProperty('--index-complementary', '#E2E0C8')
+        root.style.setProperty('--button', '#779977')
+        root.style.setProperty('--recipe-card', '#E2E0C8')
+        root.style.setProperty('--input', '#E2E0C8')
+        localStorage.setItem("theme", "mom")
+        break
+      }
+    }
+  }
+
   window.addEventListener("mousedown", (e) => {
     const x = window.matchMedia("(max-width: 600px)")
     const index = document.querySelector('.index')
@@ -128,6 +158,10 @@ function App() {
 
   useEffect(() => {
     const user = localStorage.getItem("author")
+    const theme = localStorage.getItem("theme")
+    if (theme) {
+      toggleTheme(theme)
+    }
     if (user) {
       setLoggedIn(true)
       setUser(user)
@@ -161,7 +195,7 @@ function App() {
       <>
         <header>
           <div className="title">
-            <h1>My Family Recipes</h1>
+            <h1>Family Recipes</h1>
           </div>
           {(user != "Unknown") && <div className="button-container logout" onClick={() => {setLoggedIn(false); localStorage.removeItem("author")}}>
             <span>Logout</span>
@@ -175,6 +209,12 @@ function App() {
           {(user != "Unknown") && <div className="button-container">
             <span onClick={() => {setOpen(true); preventScrolling()}}>Add New Recipe</span>
           </div>}
+          <div className="theme-select">
+            <select onChange={(e) => toggleTheme(e.target.value)}>
+              <option value="basic">Basic</option>
+              <option value="mom">Mom</option>
+            </select>
+          </div>
         </header>
         <div className="mobile-index-bg"></div>
         <div className="index">
