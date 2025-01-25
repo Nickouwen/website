@@ -68,7 +68,7 @@ body.no-scroll {
   margin: 5px 0;
   display: inline-flex;
   border: none;
-  box-shadow: inset 1px 1px 0 black, inset -1px -1px 0 black;
+  box-shadow: inset 1px 1px 0 var(--border), inset -1px -1px 0 var(--border);
   cursor: pointer;
   &:hover {
     span {

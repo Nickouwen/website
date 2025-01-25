@@ -84,7 +84,7 @@ function App() {
       case "dark": {
         root.style.setProperty('--primary', '#313342')
         root.style.setProperty('--complementary', '#E0E1DD')
-        root.style.setProperty('--border', '#E0E1DD')
+        root.style.setProperty('--border', '#606060')
         root.style.setProperty('--index', '#212533')
         root.style.setProperty('--index-complementary', '#E0E1DD')
         root.style.setProperty('--button', '#313340')
