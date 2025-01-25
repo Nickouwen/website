@@ -11,6 +11,10 @@ body.no-scroll {
 
 }
 
+::placeholder {
+  color: var(--placeholder);
+}
+
 .index {
   background-color: var(--index);
   position: fixed;

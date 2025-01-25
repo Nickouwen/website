@@ -61,6 +61,7 @@ function App() {
         root.style.setProperty('--recipe-card', '#FFFFFF')
         root.style.setProperty('--input', '#FFFFFF')
         root.style.setProperty('--text', '#000000')
+        root.style.setProperty('--placeholder', '#777777')
         localStorage.setItem("theme", "basic")
         setTheme("basic")
         break
@@ -75,6 +76,7 @@ function App() {
         root.style.setProperty('--recipe-card', '#E2E0C8')
         root.style.setProperty('--input', '#E2E0C8')
         root.style.setProperty('--text', '#000000')
+        root.style.setProperty('--placeholder', '#444444')
         localStorage.setItem("theme", "mom")
         setTheme("mom")
         break
@@ -89,6 +91,7 @@ function App() {
         root.style.setProperty('--recipe-card', '#212533')
         root.style.setProperty('--input', '#313342')
         root.style.setProperty('--text', '#E0E1DD')
+        root.style.setProperty('--placeholder', '#CCCCCC')
         localStorage.setItem("theme", "dark")
         setTheme("dark")
         break
